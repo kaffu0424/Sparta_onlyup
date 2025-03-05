@@ -28,7 +28,7 @@ public abstract class SIngleton<T> : MonoBehaviour where T : MonoBehaviour
     public void Awake()
     {
         // DontDestoryOnLoad(gameobject);
-        // 필요할때 InitializeManager에서
+        // 필요할때 InitializeManager에서 해주기
 
         InitializeManager();
     }
