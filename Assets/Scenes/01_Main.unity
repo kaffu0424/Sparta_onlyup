@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 396602265}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -20.44, y: 3.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1496,23 +1496,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 545002387595186215, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 4745111520762522986, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 116497740939273307, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 5222989614217008752, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 6336412107104009437, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 8465132025600391047, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 2336981686033078779, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 305512837317028768, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 4082031090595722204, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 5401715195469937996, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 7211652444697778150, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 3035062650969531516, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 5223209543877132178, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 9141753548397463165, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 1314493383793765430, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
-    - {fileID: 7735419174696849914, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b061614e1bf4beb4c8222a06fa90d8dc, type: 3}
@@ -1774,16 +1758,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7aa7744d8afe964691ebce2893dba84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpPower: 3
+  moveSpeed: 5
+  jumpPower: 7
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 128
   cameraTransform: {fileID: 935203180}
   minXLook: -55
   maxXLook: 55
-  lookSensitivity: 2
-  canLook: 1
+  lookSensitivity: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

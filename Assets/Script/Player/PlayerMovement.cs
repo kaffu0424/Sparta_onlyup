@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,8 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private float camCurXRot;
     private Vector2 mouseDelta;
 
-    [HideInInspector]
-    public bool canLook = true;
+    [SerializeField] private bool isGrounded;
 
     private void Start()
     {
@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        isGrounded = true;
     }
 
     private void FixedUpdate()
@@ -50,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
         dir.y = rigidBody.velocity.y;
 
         rigidBody.velocity = dir;
+
+        // 애니메이션
+        animator.SetFloat("moveX", curMovementInput.x);
+        animator.SetFloat("moveY", curMovementInput.y);
     }
 
     void CameraLook()
@@ -67,23 +73,67 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnMoveInput(InputAction.CallbackContext context)
     {
+        // 땅에 있는상태가 아닐때 움직임 방지
+        if (!isGrounded)
+            return;
+
         if (context.phase == InputActionPhase.Performed)
-        {
             curMovementInput = context.ReadValue<Vector2>();
 
-            // y < 0  ( 뒤로 걷는 애니메이션
-            // y >= 0 ( 앞으로 걷는 애니메이션
-        }
         else if (context.phase == InputActionPhase.Canceled)
-        {
             curMovementInput = Vector2.zero;
-        }
     }
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        if(context.phase == InputActionPhase.Started && CheckGrounded())
         {
             rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            animator.SetTrigger("Jump");
+            animator.SetBool("Landing", false);
+            StartCoroutine(CheckLanding());
+        }
+    }
+
+    private bool CheckGrounded()
+    {
+        // forward : 객체 앞
+        // -forward : 객체 뒤
+        // right : 객체 오른쪽
+        // -right : 객체 왼쪽
+
+        Ray[] rays = new Ray[4]
+        {
+            new Ray(transform.position + (transform.forward * 0.1f) + (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.1f) + (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position + (transform.right * 0.1f) + (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.1f) +(transform.up * 0.01f), Vector3.down)
+        };
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private IEnumerator CheckLanding()
+    {
+        isGrounded = false;
+        yield return new WaitForSeconds(0.02f);
+
+        while (!isGrounded)
+        {
+            yield return null;
+            if(CheckGrounded())
+            {
+                isGrounded = true;
+                animator.SetBool("Landing", true);
+
+                curMovementInput = Vector2.zero;
+            }
         }
     }
 }
