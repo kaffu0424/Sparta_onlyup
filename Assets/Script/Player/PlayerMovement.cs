@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Animator animator;
-    private Rigidbody rigidBody;
+    public Animator animator { get; private set; }
+    public Rigidbody rigidBody { get; private set; }
 
     [Header("movement")]
     [SerializeField] private float moveSpeed;
@@ -23,16 +23,12 @@ public class PlayerMovement : MonoBehaviour
     private float camCurXRot;
     private Vector2 mouseDelta;
 
-    [SerializeField] private bool isGrounded;
-
     private void Start()
     {
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
-
-        isGrounded = true;
     }
 
     private void FixedUpdate()
@@ -71,26 +67,22 @@ public class PlayerMovement : MonoBehaviour
     {
         mouseDelta = context.ReadValue<Vector2>();
     }
+
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        // 땅에 있는상태가 아닐때 움직임 방지
-        if (!isGrounded)
-            return;
-
         if (context.phase == InputActionPhase.Performed)
             curMovementInput = context.ReadValue<Vector2>();
 
         else if (context.phase == InputActionPhase.Canceled)
             curMovementInput = Vector2.zero;
     }
+
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started && CheckGrounded())
         {
             rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             animator.SetTrigger("Jump");
-            animator.SetBool("Landing", false);
-            StartCoroutine(CheckLanding());
         }
     }
 
@@ -117,23 +109,5 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return false;
-    }
-
-    private IEnumerator CheckLanding()
-    {
-        isGrounded = false;
-        yield return new WaitForSeconds(0.02f);
-
-        while (!isGrounded)
-        {
-            yield return null;
-            if(CheckGrounded())
-            {
-                isGrounded = true;
-                animator.SetBool("Landing", true);
-
-                curMovementInput = Vector2.zero;
-            }
-        }
     }
 }
