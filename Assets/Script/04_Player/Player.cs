@@ -38,6 +38,26 @@ public class Player
         onHit?.Invoke(maxHP, hp);
     }
 
+    public void Recover(float value, StatType type)
+    {
+        switch (type)
+        {
+            case StatType.Hp:
+                hp += value;
+                if(hp >= maxHP)
+                    maxHP = hp;
+                onHit?.Invoke(maxHP, hp);
+                break;
+
+            case StatType.Stamina:
+                stamina += value;
+                if(stamina >= maxStamina) 
+                    maxStamina = stamina;
+                onUseStamina?.Invoke(maxStamina, stamina);
+                break;
+        }
+    }
+
     public bool UseStamina(float useStamina)
     {
         // 필요한 스테미나보다 적을때
