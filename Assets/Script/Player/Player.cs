@@ -6,19 +6,20 @@ using UnityEngine;
 [System.Serializable]
 public class Player
 {
-    Action<float, float> hitEvent;
+    public event Action<float, float> onHit;
+    public event Action<float, float> onUseStamina;
 
     public float maxHP;
     public float hp;
+    public float maxStamina;
+    public float stamina;
     public bool isDead;
 
-    public Player(float maxHP, Action<float, float> hitEvent)
+    public Player(float maxHP, float maxStamina)
     {
         this.maxHP = maxHP;
         hp = maxHP;
         isDead = false;
-
-        this.hitEvent = hitEvent;
     }
 
     public void GetDamage(float damage)
@@ -30,6 +31,7 @@ public class Player
             isDead = true;
         }
 
-        hitEvent?.Invoke(maxHP, hp);
+        onHit?.Invoke(maxHP, hp);
     }
+
 }

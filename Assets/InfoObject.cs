@@ -8,6 +8,9 @@ public class InfoObject : MonoBehaviour, IInformable
 
     public void Information()
     {
+        if (data == null)
+            return;
+
         UIManager.Instance.informationUI.UpdateInformation(data.objectName, data.objectDescription);
     }
 }
