@@ -14,11 +14,16 @@ public class PlayerManager : SIngleton<PlayerManager>
         playerInteraction = FindObjectOfType<PlayerInteraction>();
 
         // 플레이어 데이터 생성
-        playerData = new Player(100);
+        playerData = new Player(100, HitEvent);
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
             playerData.GetDamage(10);
+    }
+
+    private void HitEvent(float maxHp, float hp)
+    {
+        UIManager.Instance.playerStat.UpdateHP(maxHp, hp);
     }
 }

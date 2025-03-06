@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,15 +6,19 @@ using UnityEngine;
 [System.Serializable]
 public class Player
 {
+    Action<float, float> hitEvent;
+
     public float maxHP;
     public float hp;
     public bool isDead;
 
-    public Player(float maxHP)
+    public Player(float maxHP, Action<float, float> hitEvent)
     {
         this.maxHP = maxHP;
         hp = maxHP;
         isDead = false;
+
+        this.hitEvent = hitEvent;
     }
 
     public void GetDamage(float damage)
@@ -25,6 +30,6 @@ public class Player
             isDead = true;
         }
 
-        UIManager.Instance.playerStat.UpdateHP(maxHP, hp);
+        hitEvent?.Invoke(maxHP, hp);
     }
 }
