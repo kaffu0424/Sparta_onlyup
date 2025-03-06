@@ -23,21 +23,33 @@ public class PlayerMovement : MonoBehaviour
     private float camCurXRot;
     private Vector2 mouseDelta;
 
+
+    private Player playerData;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerData = PlayerManager.Instance.playerData;
+        StartCoroutine(playerData.RecoverStamina());
     }
 
     private void FixedUpdate()
     {
+        if (playerData.isDead)
+            return;
+
         Move();
     }
 
     private void LateUpdate()
     {
+        if (playerData.isDead)
+            return;
+
         CameraLook();
     }
 
@@ -74,13 +86,19 @@ public class PlayerMovement : MonoBehaviour
             curMovementInput = context.ReadValue<Vector2>();
 
         else if (context.phase == InputActionPhase.Canceled)
+        { 
             curMovementInput = Vector2.zero;
+        }
     }
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started && CheckGrounded())
+        if (context.phase == InputActionPhase.Started && CheckGrounded())
         {
+            // 스테미나 부족하면 점프 X
+            if (!playerData.UseStamina(10f))
+                return;
+
             rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             animator.SetTrigger("Jump");
         }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerManager : SIngleton<PlayerManager>
 {
-    [SerializeField] public Player playerData { get; private set; }
-    [SerializeField] public PlayerMovement playerMovement { get; private set; }
-    [SerializeField] public PlayerInteraction playerInteraction { get; private set; }
+    public Player playerData { get; set; }
+    public PlayerMovement playerMovement { get; private set; }
+    public PlayerInteraction playerInteraction { get; private set; }
     protected override void InitializeManager()
     {
         // 플레이어 오브젝트의 PlayerMovement / PlayerInteraction 찾기
