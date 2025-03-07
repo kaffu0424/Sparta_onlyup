@@ -15,6 +15,8 @@ public class Player
     public float stamina;
     public bool isDead;
 
+    public float[] buffValues;
+
     public Player(float maxHP, float maxStamina)
     {
         this.maxHP = maxHP;
@@ -24,6 +26,8 @@ public class Player
         stamina = maxStamina;
 
         isDead = false;
+
+        buffValues = new float[Enum.GetValues(typeof(BuffType)).Length];
     }
 
     public void GetDamage(float damage)
@@ -82,7 +86,7 @@ public class Player
             yield return new WaitWhile(() => stamina >= maxStamina);
 
             // 스테미나 회복
-            stamina += Time.deltaTime;
+            stamina += 3 * Time.deltaTime;
 
             // 스테미나 게이지 업데이트
             // 이부분 너무 무거운거같은데..

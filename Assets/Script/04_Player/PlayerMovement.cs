@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
+        dir *= moveSpeed + playerData.buffValues[(int)BuffType.Speed];
         dir.y = rigidBody.velocity.y;
 
         rigidBody.velocity = dir;
@@ -99,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
             if (!playerData.UseStamina(10f))
                 return;
 
-            rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            Vector3 jumpDir = Vector3.up * (jumpPower + playerData.buffValues[(int)BuffType.Jump]);
+            rigidBody.AddForce(jumpDir, ForceMode.Impulse);
             animator.SetTrigger("Jump");
         }
     }

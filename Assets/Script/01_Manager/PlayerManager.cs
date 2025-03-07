@@ -7,11 +7,13 @@ public class PlayerManager : SIngleton<PlayerManager>
     public Player playerData { get; set; }
     public PlayerMovement playerMovement { get; private set; }
     public PlayerInteraction playerInteraction { get; private set; }
+    public PlayerBuff playerBuff { get; private set; }
     protected override void InitializeManager()
     {
         // 캐싱
         playerMovement = FindObjectOfType<PlayerMovement>();    
         playerInteraction = FindObjectOfType<PlayerInteraction>();
+        playerBuff = FindObjectOfType<PlayerBuff>();
 
         // 플레이어 데이터 생성
         // event 구독

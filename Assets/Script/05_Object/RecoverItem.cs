@@ -7,11 +7,25 @@ public class RecoverItem : MonoBehaviour, IInteractable
     [SerializeField] private InteractionGuideData guideData;
     [SerializeField] private RecoverData recoverData;
 
+    private InteractionUI interactionUI;
+    private Player playerData;
+    private void Start()
+    {
+        interactionUI = UIManager.Instance.interactionUI;
+        playerData = PlayerManager.Instance.playerData;
+    }
+
     public void Interaction()
     {
+        if(recoverData == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         float value = recoverData.value;
         StatType type = recoverData.type;
-        PlayerManager.Instance.playerData.Recover(value, type);
+        playerData.Recover(value, type);
 
         Destroy(gameObject);
     }
@@ -21,6 +35,6 @@ public class RecoverItem : MonoBehaviour, IInteractable
         if (guideData == null)
             return;
 
-        UIManager.Instance.interactionUI.UpdateGuide(guideData.objectGuide);
+        interactionUI.UpdateGuide(guideData.objectGuide);
     }
 }
