@@ -18,8 +18,10 @@ public class PlayerManager : SIngleton<PlayerManager>
         // 플레이어 데이터 생성
         // event 구독
         playerData = new Player(100,200);
-        playerData.onHit += OnHit;
-        playerData.onUseStamina += UseStamina;
+        playerData.onHit += (float maxHp, float hp) 
+            => UIManager.Instance.playerStatUI.UpdateStat(maxHp, hp, StatType.Hp);
+        playerData.onUseStamina += (float maxStamina, float stamina)
+            => UIManager.Instance.playerStatUI.UpdateStat(maxStamina, stamina, StatType.Stamina);
     }
     private void Update()
     {
@@ -27,13 +29,4 @@ public class PlayerManager : SIngleton<PlayerManager>
             playerData.GetDamage(10);
     }
 
-    private void OnHit(float maxHp, float hp)
-    {
-        UIManager.Instance.playerStatUI.UpdateStat(maxHp, hp, StatType.Hp);
-    }
-
-    private void UseStamina(float maxStamina, float stamina)
-    {
-        UIManager.Instance.playerStatUI.UpdateStat(maxStamina, stamina, StatType.Stamina);
-    }
 }
