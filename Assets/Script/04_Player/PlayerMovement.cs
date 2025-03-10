@@ -23,15 +23,19 @@ public class PlayerMovement : MonoBehaviour
     private float camCurXRot;
     private Vector2 mouseDelta;
 
-
+    [Header("PlayerData")]
     private Player playerData;
+
+    public bool onLauncher;
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
 
-        Cursor.lockState = CursorLockMode.Locked;
+        onLauncher = false;
 
         playerData = PlayerManager.Instance.playerData;
         StartCoroutine(playerData.RecoverStamina());
@@ -40,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (playerData.isDead)
+            return;
+
+        if (onLauncher)
             return;
 
         Move();
@@ -128,5 +135,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return false;
+    }
+
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 충돌했을때 Lanuncher 상태 false
+        onLauncher = false;
     }
 }

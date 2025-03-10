@@ -15,13 +15,22 @@ public class PlayerInteraction : MonoBehaviour
     
     private Transform currentObject;
 
+
+    private InformationUI informationUI;
+    private InteractionUI interactionUI;
+    private void Start()
+    {
+        informationUI = UIManager.Instance.informationUI;
+        interactionUI = UIManager.Instance.interactionUI;
+    }
+
     private void Update()
     {
         // Raycast
         if (!Physics.Raycast(transform.position, transform.forward, out hitInfo, range, interactableLayer))
         {
-            UIManager.Instance.informationUI?.OffInformation();
-            UIManager.Instance.interactionUI?.OffGuide();
+            informationUI.OffInformation();
+            interactionUI.OffGuide();
             currentInformable = null;
             currentObject = null;
             return;
@@ -41,6 +50,8 @@ public class PlayerInteraction : MonoBehaviour
             // IInteractable을 상속받지 않는 오브젝트 예외처리
             if (currentObject.TryGetComponent(out IInteractable interactable))
                 interactable.InteractionText();
+            else
+                interactionUI.OffGuide();
         }
     }
 
