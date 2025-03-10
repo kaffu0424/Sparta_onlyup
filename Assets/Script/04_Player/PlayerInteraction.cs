@@ -57,7 +57,7 @@ public class PlayerInteraction : MonoBehaviour
             // IInteractable을 상속받지 않는 오브젝트 예외처리
             if(currentObject.TryGetComponent(out IInteractable interactable))
             {
-                interactable.Interaction();
+                interactable.Interact();
             }
         }
     }

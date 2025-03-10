@@ -21,7 +21,7 @@ public class BuffItem : MonoBehaviour, IInteractable
         playerBuff = PlayerManager.Instance.playerBuff;
     }
 
-    public void Interaction()
+    public void Interact()
     {
         if (buffData == null)
         {

@@ -15,7 +15,7 @@ public class RecoverItem : MonoBehaviour, IInteractable
         playerData = PlayerManager.Instance.playerData;
     }
 
-    public void Interaction()
+    public void Interact()
     {
         if(recoverData == null)
         {
